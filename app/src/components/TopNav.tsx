@@ -25,12 +25,6 @@ export function TopNav({ user }: { user: { id: string; name: string; email: stri
           <span className="text-black/60 dark:text-white/60">
             Signed in as <strong className="text-black/80 dark:text-white/80">{user.name}</strong>
           </span>
-          <Link
-            href="/login"
-            className="rounded-md border border-black/10 px-3 py-1.5 hover:bg-black/5 dark:border-white/15 dark:hover:bg-white/10"
-          >
-            Switch user
-          </Link>
           <button
             onClick={handleLogout}
             disabled={loggingOut}
