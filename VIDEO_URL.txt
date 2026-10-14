@@ -1,0 +1,14 @@
+PENDING — not recorded (per scope: skip video for now).
+
+When you record (3–5 min, unlisted Loom or YouTube), paste the URL on the first line of this file.
+
+Shot list / script (timed ~4:00):
+
+0:00–0:20  Product intent. Docs Lite is a slice, not a clone. Core loop: create, edit, import, share, persist.
+0:20–0:50  Login as Alice (mocked auth, three seeded users). Dashboard: owned vs shared-with-me.
+0:50–1:40  Open Welcome doc. Show toolbar (bold/italic/underline/H1–H3/lists). Rename. Wait for “Saved”. Refresh to prove persistence.
+1:40–2:20  Share with Carol as Can view. Switch user → Carol: appears under Shared with me, editor is read-only. Switch to Bob: he can edit (seeded editor).
+2:20–2:50  Upload sample-import.md. New document from Markdown, script tags stripped.
+2:50–3:20  What I cut: realtime, comments, versions, docx, real OAuth — and why.
+3:20–3:50  Implementation: Next.js + Tiptap + Prisma/Postgres, HTML sanitizer, role module + tests.
+3:50–4:10  How AI helped (scaffold, tests) and what I rejected (Prisma 7, email-share payload, PPR).

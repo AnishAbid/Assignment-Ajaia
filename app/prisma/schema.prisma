@@ -1,0 +1,61 @@
+// Prisma schema for the Docs Lite collaborative document editor.
+//
+// Storage choice: PostgreSQL.
+// - Locally: run via the provided docker-compose.yml (zero-config Postgres container).
+// - In production: Vercel Postgres (Neon), connected via DATABASE_URL.
+// Using one provider everywhere avoids "works locally, breaks in prod" drift that
+// comes from mixing SQLite (dev) and Postgres (prod) schemas.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Permission {
+  VIEW
+  EDIT
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  createdAt DateTime @default(now())
+
+  ownedDocuments Document[] @relation("OwnedDocuments")
+  shares         Share[]    @relation("SharesReceived")
+}
+
+model Document {
+  id        String   @id @default(cuid())
+  title     String   @default("Untitled document")
+  // Rich-text content stored as sanitized HTML produced by the Tiptap editor.
+  // Storing HTML (rather than raw Tiptap JSON) keeps rendering + import/export simple
+  // while still preserving headings/bold/italic/underline/lists structure.
+  content   String   @default("")
+  ownerId   String
+  owner     User     @relation("OwnedDocuments", fields: [ownerId], references: [id], onDelete: Cascade)
+  shares    Share[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([ownerId])
+}
+
+model Share {
+  id         String     @id @default(cuid())
+  documentId String
+  document   Document   @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  userId     String
+  user       User       @relation("SharesReceived", fields: [userId], references: [id], onDelete: Cascade)
+  permission Permission @default(VIEW)
+  createdAt  DateTime   @default(now())
+
+  // A document can only be shared once per user; re-sharing updates the permission.
+  @@unique([documentId, userId])
+  @@index([userId])
+}

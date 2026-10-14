@@ -1,0 +1,7 @@
+PENDING — deploy to Vercel not completed in this environment yet.
+
+After deploy, replace this file with a single line, for example:
+
+https://docs-lite.vercel.app
+
+Reviewers: until then, run locally from app/README.md.
